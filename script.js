@@ -5,7 +5,7 @@ const produtos = [
     {
         nome: "Chinelo Básico",
         preco: 29.90,
-        img: "https://via.placeholder.com/200"
+        img: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519"
     },
     {
         nome: "Chinelo Estiloso",
@@ -43,24 +43,28 @@ function criarHeader() {
 // PRODUTOS
 function criarProdutos() {
     const secao = document.createElement("div");
-    secao.className = "produtos";
+    secao.classname = "produtos";
 
     produtos.forEach((produto, i) => {
         const card = document.createElement("div");
-        card.className = "produto";
-
+        card.classname = "produto";
+    
         card.innerHTML = `
-            <img src="${produto.img}">
-            <h3>${produto.nome}</h3>
-            <p>R$ ${produto.preco.toFixed(2)}</p>
-            <button onclick="adicionar(${i})">Comprar</button>
+            img src="${produto.img}">
+            div class="info">
+                h3>${produto.nome}</h3>
+                <p class="preco">R$ ${produto.preco.toFixed(2)}</p>
+                <button onclick="adicionar(${i})">
+                    🛒 Comprar
+                </button>
+            </div>
         `;
 
         secao.appendChild(card);
     });
 
     app.appendChild(secao);
-}
+}  
 
 // ADICIONAR
 function adicionar(i) {
@@ -82,6 +86,12 @@ function criarCarrinho() {
     document.body.appendChild(div);
 }
 
+function remover(index) {
+    carrinho.splice(index, 1);
+    salvar();
+    atualizarCarrinho();
+}
+
 // ATUALIZAR
 function atualizarCarrinho() {
     const div = document.getElementById("carrinho");
@@ -95,11 +105,15 @@ function atualizarCarrinho() {
     let html = "<h4>Carrinho</h4>";
     let texto = "Pedido:%0A";
 
-    carrinho.forEach(item => {
-        html += `<p>${item.nome}</p>`;
-        texto += `- ${item.nome}%0A`;
-        total += item.preco;
-    });
+    carrinho.forEach((item, index) => {
+    html += `
+        <p>
+            ${item.nome} 
+            <button onclick="remover(${index})">❌</button>
+        </p>
+    `;
+    total += item.preco;
+});
 
     html += `<strong>Total: R$ ${total.toFixed(2)}</strong><br><br>`;
     texto += `Total: R$ ${total.toFixed(2)}`;
